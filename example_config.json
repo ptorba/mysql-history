@@ -1,0 +1,9 @@
+{
+    "host": "172.17.0.2",
+    "user": "root",
+    "password": "root",
+    "database": "my_db",
+    "history_table_prefix": "h_",
+    "includes": [".*"],
+    "excludes": ["test.*"]
+}
