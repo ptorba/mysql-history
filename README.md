@@ -2,12 +2,11 @@
 
 Helps creating audit tables and triggers to track data changes in MySQL.
 
-Script connects to a MySQL database and creates:
+On execution, mysql-history connects to a MySQL database and creates:
 * audit tables as copies of source tables (1 for every source table) with the following columns added:
     * `hst_id INT PRIMARY KEY`
     * `hst_modified_date DATETIME`
     * `hst_type VARCHAR(2)`
-
 * triggers on INSERT, UPDATE and DELETE on source tables
     * every trigger inserts modified data to audit table specifying `hst_type` as 'I', 'U' or 'D'
 
