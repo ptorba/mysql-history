@@ -38,7 +38,7 @@ def table_exists(config, table_name):
 
 
 def columns(config, table_name):
-    columns_query = '''SELECT column_name, column_type, character_set_name, collation_name
+    columns_query = '''SELECT column_name, column_type, character_set_name, collation_name, column_default
                         FROM information_schema.columns
                         WHERE table_schema=%s
                         AND table_name=%s'''
@@ -49,7 +49,7 @@ def columns(config, table_name):
 def copy_table(config, table_from, table_to):
     print "CREATE TABLE", table_to
     cols = columns(config, table_from)
-    columns_sql = [u"`%(name)s` %(type)s %(charset)s %(collation)s DEFAULT NULL" % {
+    columns_sql = [u"`%(name)s` %(type)s %(charset)s %(collation)s" % {
         'name': col['column_name'],
         'type': col['column_type'],
         'charset': ('CHARACTER SET ' + col['character_set_name']) if col['character_set_name'] else '',
@@ -87,18 +87,18 @@ def update_table(config, table_from, table_to):
 
     print "UPDATING COLUMNS IN TABLE", table_to, len(new_columns), "new", len(changed_type), "changed"
 
-    new_columns_sql = [u"ADD COLUMN `%(name)s` %(type)s %(charset)s %(collation)s DEFAULT NULL" % {
+    new_columns_sql = [u"ADD COLUMN `%(name)s` %(type)s %(charset)s %(collation)s" % {
         'name': col['column_name'],
         'type': col['column_type'],
         'charset': ('CHARACTER SET ' + col['character_set_name']) if col['character_set_name'] else '',
-        'collation':('COLLATE ' + col['collation_name']) if col['collation_name'] else ''
+        'collation':('COLLATE ' + col['collation_name']) if col['collation_name'] else '',
         } for name, col in new_columns.iteritems()]
 
-    changed_columns_sql = [u"MODIFY COLUMN `%(name)s` %(type)s %(charset)s %(collation)s DEFAULT NULL" % {
+    changed_columns_sql = [u"MODIFY COLUMN `%(name)s` %(type)s %(charset)s %(collation)s" % {
         'name': col['column_name'],
         'type': col['column_type'],
         'charset': ('CHARACTER SET ' + col['character_set_name']) if col['character_set_name'] else '',
-        'collation':('COLLATE ' + col['collation_name']) if col['collation_name'] else ''
+        'collation':('COLLATE ' + col['collation_name']) if col['collation_name'] else '',
         } for col in changed_type]
 
     for sql in new_columns_sql + changed_columns_sql:
