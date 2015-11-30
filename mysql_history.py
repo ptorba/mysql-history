@@ -227,7 +227,7 @@ Config = namedtuple('Config', ['cursor', 'database', 'h_prefix', 'includes', 'ex
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print u"USAGE: %s <config.ini> [DROP]" % sys.argv[0]
+        print u"USAGE: %s <config.json> [DROP]" % sys.argv[0]
         sys.exit(1)
 
     config = json.load(open(sys.argv[1], 'r'))
