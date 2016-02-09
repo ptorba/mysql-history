@@ -4,6 +4,7 @@
     "password": "root",
     "database": "my_db",
     "history_table_prefix": "h_",
+    "_comment": "includes and excludes are passed to re.match(), so leads will match leads and leads_audit!",
     "includes": [".*"],
     "excludes": ["test.*"]
 }
